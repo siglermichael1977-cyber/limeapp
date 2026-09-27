@@ -23,38 +23,7 @@ class _EntertainmentScreenState extends State<EntertainmentScreen>
     'Thriller'
   ];
 
-  final List<Movie> movies = [
-    Movie(
-      title: 'The Tropical Adventure',
-      poster: '🎬',
-      platforms: ['Netflix', 'Prime Video'],
-    ),
-    Movie(
-      title: 'Caribbean Nights',
-      poster: '🌴',
-      platforms: ['Hulu', 'Disney+'],
-    ),
-    Movie(
-      title: 'Island Paradise',
-      poster: '🏝️',
-      platforms: ['Netflix'],
-    ),
-    Movie(
-      title: 'Ocean\'s Mystery',
-      poster: '🌊',
-      platforms: ['Prime Video', 'Netflix'],
-    ),
-    Movie(
-      title: 'Sunset Dreams',
-      poster: '🌅',
-      platforms: ['Disney+'],
-    ),
-    Movie(
-      title: 'Festival Vibes',
-      poster: '🎉',
-      platforms: ['Hulu', 'Netflix'],
-    ),
-  ];
+  final List<Movie> movies = [];
 
   @override
   void initState() {
@@ -113,6 +82,21 @@ class _EntertainmentScreenState extends State<EntertainmentScreen>
                 ),
               ),
             ),
+            if (movies.isEmpty)
+              const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(32),
+                    child: Text(
+                      'Nothing here yet',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                  ),
+                ),
+              ),
+            if (movies.isNotEmpty)
             SliverPadding(
               padding: const EdgeInsets.all(16),
               sliver: SliverGrid(

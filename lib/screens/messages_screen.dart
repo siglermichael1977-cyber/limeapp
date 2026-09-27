@@ -21,63 +21,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   }
 
   void _loadConversations() {
-    conversations = [
-      Message(
-        id: '1',
-        conversationId: 'conv1',
-        senderId: 'user1',
-        senderName: 'Alex Rivera',
-        senderAvatar: 'avatar1',
-        content: 'Hey! How are you doing?',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 2)),
-        isRead: false,
-        unreadCount: 3,
-      ),
-      Message(
-        id: '2',
-        conversationId: 'conv2',
-        senderId: 'user2',
-        senderName: 'Caribbean Crew',
-        senderAvatar: 'avatar2',
-        content: 'Thanks for coming to the event yesterday!',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 14)),
-        isRead: false,
-        unreadCount: 1,
-      ),
-      Message(
-        id: '3',
-        conversationId: 'conv3',
-        senderId: 'user3',
-        senderName: 'Jazz Events',
-        senderAvatar: 'avatar3',
-        content: 'New jazz night coming up next week 🎷',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 45)),
-        isRead: true,
-        unreadCount: 0,
-      ),
-      Message(
-        id: '4',
-        conversationId: 'conv4',
-        senderId: 'user4',
-        senderName: 'Island Adventures',
-        senderAvatar: 'avatar4',
-        content: 'That beach was amazing!',
-        createdAt: DateTime.now().subtract(const Duration(hours: 3)),
-        isRead: true,
-        unreadCount: 0,
-      ),
-      Message(
-        id: '5',
-        conversationId: 'conv5',
-        senderId: 'user5',
-        senderName: 'Miguel Santos',
-        senderAvatar: 'avatar5',
-        content: 'Can\'t wait for the next meetup',
-        createdAt: DateTime.now().subtract(const Duration(hours: 5)),
-        isRead: true,
-        unreadCount: 0,
-      ),
-    ];
+    conversations = [];
   }
 
   @override
