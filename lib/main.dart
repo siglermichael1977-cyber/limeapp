@@ -8,6 +8,7 @@ import 'package:lime_app/screens/create_post_screen.dart';
 import 'package:lime_app/screens/messages_screen.dart';
 import 'package:lime_app/screens/profile_screen.dart';
 import 'package:lime_app/widgets/bottom_nav_bar.dart';
+import 'package:lime_app/screens/auth_gate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +37,7 @@ class LimeApp extends StatelessWidget {
           iconTheme: IconThemeData(color: LimeColors.textPrimary),
         ),
       ),
-      home: const MainApp(),
+      home: const AuthGate(child: MainApp()),
     );
   }
 }

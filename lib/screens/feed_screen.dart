@@ -32,7 +32,10 @@ class _FeedScreenState extends State<FeedScreen> {
           .limit(50);
 
       final loaded = (rows as List).map((r) {
-        final profile = (r['profiles'] as Map?) ?? const {};
+        final rawProfile = r['profiles'];
+        final Map profile = rawProfile is List
+            ? (rawProfile.isEmpty ? const {} : rawProfile.first as Map)
+            : (rawProfile is Map ? rawProfile : const {});
         final image = r['image_url'] as String?;
         return Post(
           id: r['id']?.toString() ?? '',

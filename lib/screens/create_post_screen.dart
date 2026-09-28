@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:lime_app/constants/colors.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -11,6 +12,7 @@ class CreatePostScreen extends StatefulWidget {
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final _captionController = TextEditingController();
   final List<String> selectedImages = [];
+  bool _posting = false;
 
   final List<Map<String, String>> mediaOptions = [
     {'icon': '📷', 'label': 'Photos'},
@@ -18,6 +20,49 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     {'icon': '🎵', 'label': 'Music'},
     {'icon': '➕', 'label': 'More'},
   ];
+
+  Future<void> _publish() async {
+    final text = _captionController.text.trim();
+    final messenger = ScaffoldMessenger.of(context);
+    if (text.isEmpty) {
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Write something first.')),
+      );
+      return;
+    }
+    final client = Supabase.instance.client;
+    final uid = client.auth.currentUser?.id;
+    if (uid == null) {
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Please sign in to post.')),
+      );
+      return;
+    }
+    setState(() => _posting = true);
+    try {
+      final profile = await client
+          .from('profiles')
+          .select('island, current_location')
+          .eq('id', uid)
+          .maybeSingle();
+      await client.from('posts').insert({
+        'author_id': uid,
+        'body': text,
+        'island': (profile?['island'] ?? 'Caribbean').toString(),
+        'posted_from': (profile?['current_location'] ?? 'Home').toString(),
+      });
+      _captionController.clear();
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Posted! Pull down on Home to refresh.')),
+      );
+    } catch (e) {
+      messenger.showSnackBar(
+        SnackBar(content: Text('Could not post: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _posting = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -45,18 +90,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           Padding(
             padding: const EdgeInsets.all(16),
             child: GestureDetector(
-              onTap: _captionController.text.isEmpty
-                  ? null
-                  : () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Post published!')),
-                      );
-                      _captionController.clear();
-                    },
+              onTap: _posting ? null : _publish,
               child: Text(
                 'Post',
                 style: TextStyle(
-                  color: _captionController.text.isEmpty
+                  color: _posting
                       ? LimeColors.textTertiary
                       : LimeColors.accentGreen,
                   fontSize: 14,
