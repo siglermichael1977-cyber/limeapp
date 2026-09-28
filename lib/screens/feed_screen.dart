@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:lime_app/constants/colors.dart';
 import 'package:lime_app/models/post.dart';
 import 'package:lime_app/widgets/post_card.dart';
@@ -11,7 +12,9 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  late List<Post> posts;
+  List<Post> posts = [];
+  bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -19,8 +22,45 @@ class _FeedScreenState extends State<FeedScreen> {
     _loadPosts();
   }
 
-  void _loadPosts() {
-    posts = [];
+  Future<void> _loadPosts() async {
+    try {
+      final rows = await Supabase.instance.client
+          .from('posts')
+          .select(
+              'id, body, image_url, island, created_at, author_id, profiles!posts_author_id_fkey(display_name, username, avatar_url)')
+          .order('created_at', ascending: false)
+          .limit(50);
+
+      final loaded = (rows as List).map((r) {
+        final profile = (r['profiles'] as Map?) ?? const {};
+        final image = r['image_url'] as String?;
+        return Post(
+          id: r['id']?.toString() ?? '',
+          userId: r['author_id']?.toString() ?? '',
+          userName: (profile['display_name'] ?? profile['username'] ?? 'Someone')
+              .toString(),
+          userAvatar: (profile['avatar_url'] ?? '').toString(),
+          content: (r['body'] ?? '').toString(),
+          images:
+              (image == null || image.isEmpty) ? const <String>[] : <String>[image],
+          createdAt:
+              DateTime.tryParse(r['created_at']?.toString() ?? '') ?? DateTime.now(),
+          location: (r['island'] ?? '').toString(),
+        );
+      }).toList();
+
+      if (!mounted) return;
+      setState(() {
+        posts = loaded;
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   @override
@@ -49,7 +89,41 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
         centerTitle: true,
       ),
-      body: ListView.builder(
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (_error != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Text(
+            'Could not load posts.\n' + _error!,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.grey),
+          ),
+        ),
+      );
+    }
+    if (posts.isEmpty) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(32),
+          child: Text(
+            'No posts yet. Be the first to share something.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, color: Colors.grey),
+          ),
+        ),
+      );
+    }
+    return RefreshIndicator(
+      onRefresh: _loadPosts,
+      child: ListView.builder(
         itemCount: posts.length,
         itemBuilder: (context, index) {
           return PostCard(

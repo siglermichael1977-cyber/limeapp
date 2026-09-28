@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:lime_app/constants/supabase_config.dart';
 import 'package:lime_app/constants/colors.dart';
 import 'package:lime_app/screens/feed_screen.dart';
 import 'package:lime_app/screens/search_screen.dart';
@@ -7,7 +9,12 @@ import 'package:lime_app/screens/messages_screen.dart';
 import 'package:lime_app/screens/profile_screen.dart';
 import 'package:lime_app/widgets/bottom_nav_bar.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: SupabaseConfig.url,
+    anonKey: SupabaseConfig.anonKey,
+  );
   runApp(const LimeApp());
 }
 
