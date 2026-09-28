@@ -12,21 +12,9 @@ class _SearchScreenState extends State<SearchScreen> {
   final _searchController = TextEditingController();
   bool _isSearching = false;
 
-  final List<Map<String, String>> trendingTags = [
-    {'tag': '#CaribeanVibes', 'count': '12.5K'},
-    {'tag': '#IslandLife', 'count': '8.3K'},
-    {'tag': '#LimeMusic', 'count': '6.7K'},
-    {'tag': '#CommunityFirst', 'count': '5.2K'},
-    {'tag': '#TravelDiaries', 'count': '4.1K'},
-    {'tag': '#LocalArt', 'count': '3.8K'},
-  ];
+  final List<Map<String, String>> trendingTags = [];
 
-  final List<Map<String, String>> popularUsers = [
-    {'name': 'Alex Rivera', 'handle': '@alexrivera', 'followers': '45.2K'},
-    {'name': 'Jazz Events', 'handle': '@jazzevents', 'followers': '32.1K'},
-    {'name': 'Island Adventures', 'handle': '@islandadv', 'followers': '28.5K'},
-    {'name': 'Caribbean Crew', 'handle': '@caribcrew', 'followers': '19.7K'},
-  ];
+  final List<Map<String, String>> popularUsers = [];
 
   @override
   void dispose() {

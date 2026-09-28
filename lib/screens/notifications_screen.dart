@@ -20,68 +20,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   void _loadNotifications() {
-    notifications = [
-      Notification(
-        id: '1',
-        userId: 'user1',
-        userName: 'Alex Rivera',
-        userAvatar: 'avatar1',
-        type: NotificationType.like,
-        content: 'liked your post',
-        createdAt: DateTime.now(),
-        isRead: false,
-      ),
-      Notification(
-        id: '2',
-        userId: 'user2',
-        userName: 'Caribbean Crew',
-        userAvatar: 'avatar2',
-        type: NotificationType.comment,
-        content: 'commented on your post',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
-        isRead: false,
-      ),
-      Notification(
-        id: '3',
-        userId: 'user3',
-        userName: 'Jazz Events',
-        userAvatar: 'avatar3',
-        type: NotificationType.follow,
-        content: 'started following you',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 12)),
-        isRead: true,
-      ),
-      Notification(
-        id: '4',
-        userId: 'user4',
-        userName: 'Miguel Santos',
-        userAvatar: 'avatar4',
-        type: NotificationType.like,
-        content: 'liked your post',
-        createdAt: DateTime.now().subtract(const Duration(hours: 1)),
-        isRead: true,
-      ),
-      Notification(
-        id: '5',
-        userId: 'user5',
-        userName: 'Island Adventures',
-        userAvatar: 'avatar5',
-        type: NotificationType.follow,
-        content: 'started following you',
-        createdAt: DateTime.now().subtract(const Duration(hours: 3)),
-        isRead: true,
-      ),
-      Notification(
-        id: '6',
-        userId: 'user6',
-        userName: 'Festival Team',
-        userAvatar: 'avatar6',
-        type: NotificationType.mention,
-        content: 'mentioned you in a comment',
-        createdAt: DateTime.now().subtract(const Duration(days: 1)),
-        isRead: true,
-      ),
-    ];
+    notifications = [];
   }
 
   @override

@@ -20,56 +20,7 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void _loadPosts() {
-    posts = [
-      Post(
-        id: '1',
-        userId: 'user1',
-        userName: 'Alex Rivera',
-        userAvatar: 'avatar1',
-        content: 'Just finished an amazing hike on the island! 🏔️ The views were incredible.',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
-        likes: 342,
-        comments: 28,
-        shares: 15,
-        isLiked: false,
-      ),
-      Post(
-        id: '2',
-        userId: 'user2',
-        userName: 'Caribbean Crew',
-        userAvatar: 'avatar2',
-        content: 'New music production featuring local artists dropping tomorrow! Stay tuned 🎵',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 32)),
-        likes: 856,
-        comments: 67,
-        shares: 234,
-        isLiked: true,
-      ),
-      Post(
-        id: '3',
-        userId: 'user3',
-        userName: 'Jazz Events',
-        userAvatar: 'avatar3',
-        content: 'Tonight\'s jazz night was unforgettable! Thanks to everyone who came out! 🎷',
-        createdAt: DateTime.now().subtract(const Duration(hours: 1)),
-        likes: 523,
-        comments: 42,
-        shares: 89,
-        isLiked: false,
-      ),
-      Post(
-        id: '4',
-        userId: 'user4',
-        userName: 'Island Adventures',
-        userAvatar: 'avatar4',
-        content: 'Exploring hidden beaches is my favorite pastime. Where should I go next? 🏖️',
-        createdAt: DateTime.now().subtract(const Duration(hours: 3)),
-        likes: 234,
-        comments: 56,
-        shares: 12,
-        isLiked: false,
-      ),
-    ];
+    posts = [];
   }
 
   @override
